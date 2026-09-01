@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "google-workspace-access",
   "version": "1.0.0",
-  "description": "Read and search Google Drive files and read Google Docs, Sheets, and Slides directly from Kiro through a self-hosted Google Workspace MCP server. Docs export cleanly to markdown.",
+  "description": "Read and search your Google Workspace directly from Kiro through a self-hosted, local MCP server. Search and browse Google Drive, read Google Docs (exported cleanly to markdown), pull Google Sheets cell values, and read Google Slides text and layout. It leans toward lightweight text formats over binary: Docs become .md, Sheets become .csv, Slides become a markdown outline, so you spend fewer tokens and get diff-friendly output; binary is used only when no text form exists or you ask for the original. Can also locate and download Google Vids files (Vids has no content API, so deeper Vid contents are not extractable). Runs the @piotr-agier/google-drive-mcp server locally over stdio; your Google identity, OAuth credentials, and token stay on your machine. Prefers read-only scopes by default.",
   "author": {
     "name": "krank"
   },

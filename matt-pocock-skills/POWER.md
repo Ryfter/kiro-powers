@@ -1,6 +1,6 @@
 ---
 name: "matt-pocock-skills"
-description: "Matt Pocock's engineering and productivity skills for Kiro: alignment, TDD, code review, debugging, codebase design, domain modeling, specs, and tickets. Repackaged unchanged from mattpocock/skills."
+description: "Matt Pocock's engineering and productivity agent skills, from https://www.aihero.dev/skills, repackaged unchanged for Kiro. A battle-tested toolkit for doing real software engineering with an AI agent (not vibe coding): align before you build with grilling/brainstorming, drive features and fixes with true red-green-refactor TDD, run disciplined bug diagnosis, review changes against standards and spec, and actively improve codebase architecture through deep-module design and domain modeling. Also includes productivity tooling: specs, tickets, research, prototypes, handoffs, and teaching. 25 skills across engineering and productivity, kept faithful to the source. 100% Matt Pocock's work; this power only brings his skills into Kiro. Site: https://www.aihero.dev/skills. GitHub: https://github.com/mattpocock/skills. X: https://x.com/mattpocockuk."
 keywords: engineering, tdd, code-review, debugging, codebase-design, domain-modeling, matt-pocock
 ---
 
