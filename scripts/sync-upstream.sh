@@ -13,7 +13,9 @@
 #   scripts/sync-upstream.sh            # sync into the working tree
 #   REPO_ROOT=/path scripts/sync-upstream.sh
 #
-# Writes each power's UPSTREAM.txt with the synced commit SHA for provenance.
+# UPSTREAM.txt records the synced commit SHA for provenance. To keep the weekly
+# sync PR quiet, UPSTREAM.txt is only rewritten when the upstream commit SHA
+# actually changes -- an unchanged upstream produces zero diff.
 set -euo pipefail
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
@@ -30,6 +32,27 @@ git clone --depth 1 "$SP_URL" "$WORK/superpowers" >/dev/null 2>&1
 MP_SHA="$(git -C "$WORK/mattpocock" rev-parse HEAD)"
 SP_SHA="$(git -C "$WORK/superpowers" rev-parse HEAD)"
 
+# Write UPSTREAM.txt only if the recorded commit SHA changed (avoids churning a
+# timestamp on every run). Args: dest_dir url sha scope excluded
+write_upstream_if_changed() {
+  local dest="$1" url="$2" sha="$3" scope="$4" excluded="$5"
+  local file="$dest/UPSTREAM.txt"
+  local prev=""
+  [ -f "$file" ] && prev="$(sed -n 's/^commit: //p' "$file" | head -n1)"
+  if [ "$prev" = "$sha" ]; then
+    echo "    UPSTREAM.txt unchanged ($sha)"
+    return
+  fi
+  {
+    echo "source: $url"
+    echo "commit: $sha"
+    echo "synced: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    echo "scope: $scope"
+    echo "excluded: $excluded"
+  } > "$file"
+  echo "    UPSTREAM.txt updated -> $sha"
+}
+
 # --- matt-pocock-skills: flatten engineering/ + productivity/ into skills/<name> ---
 MP_DEST="$REPO_ROOT/matt-pocock-skills"
 echo "==> Syncing matt-pocock-skills (engineering + productivity)"
@@ -45,13 +68,9 @@ for category in engineering productivity; do
   done
 done
 cp "$WORK/mattpocock/LICENSE" "$MP_DEST/UPSTREAM-LICENSE"
-{
-  echo "source: $MP_URL"
-  echo "commit: $MP_SHA"
-  echo "synced: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "scope: skills/engineering + skills/productivity (flattened)"
-  echo "excluded: skills/in-progress, skills/misc"
-} > "$MP_DEST/UPSTREAM.txt"
+write_upstream_if_changed "$MP_DEST" "$MP_URL" "$MP_SHA" \
+  "skills/engineering + skills/productivity (flattened)" \
+  "skills/in-progress, skills/misc"
 
 # --- superpowers: already flat, take all skills/<name> ---
 SP_DEST="$REPO_ROOT/superpowers"
@@ -64,13 +83,8 @@ for skilldir in "$WORK/superpowers/skills"/*/; do
   cp -R "$skilldir" "$SP_DEST/skills/$name"
 done
 cp "$WORK/superpowers/LICENSE" "$SP_DEST/UPSTREAM-LICENSE"
-{
-  echo "source: $SP_URL"
-  echo "commit: $SP_SHA"
-  echo "synced: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "scope: all skills/"
-  echo "excluded: none"
-} > "$SP_DEST/UPSTREAM.txt"
+write_upstream_if_changed "$SP_DEST" "$SP_URL" "$SP_SHA" \
+  "all skills/" "none"
 
 echo "==> Done."
 echo "    matt-pocock-skills @ $MP_SHA"
