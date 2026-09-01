@@ -35,6 +35,30 @@ server locally over stdio via `npx`. It handles its own OAuth against a Google
 Cloud project you create; your Google identity, credentials, and refresh token
 stay on your machine.
 
+## Choosing an MCP server (stdio vs. official Google)
+
+This power defaults to a **local stdio** server because that is what Kiro
+supports today. There is also an **official Google** remote MCP server, which
+is a better long-term fit but does not yet work in Kiro. See
+[TRACKING.md](TRACKING.md) for the full rationale and the automated monthly
+re-check.
+
+| | Local stdio (default) | Official Google (remote) |
+|---|---|---|
+| Package/endpoint | [`@piotr-agier/google-drive-mcp`](https://github.com/piotr-agier/google-drive-mcp) | `https://drivemcp.googleapis.com/mcp/v1` (+ docs/sheets/slides) |
+| Transport | stdio via `npx` | HTTP (`streamable-http`) |
+| Auth | server does its own OAuth once; token cached locally | host performs OAuth callback flow |
+| Works in Kiro today | **Yes** | **No** — Kiro does not yet run the remote OAuth callback flow |
+| Coverage | Drive + Docs + Sheets + Slides in one server | one server per product |
+| Maintained by | third party (MIT) | Google |
+
+**If your host already supports remote OAuth MCP** (for example Google
+Antigravity, or Claude on a paid plan), you can use Google's official servers
+instead — see
+[Google's Drive MCP setup](https://developers.google.com/workspace/drive/api/guides/configure-mcp-server).
+When Kiro adds support for remote OAuth MCP, this power can switch to the
+official endpoints.
+
 ## Getting started
 
 1. Install the power in Kiro (Powers UI > Add Custom Power > Local Directory >

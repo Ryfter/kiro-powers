@@ -1,0 +1,99 @@
+name: Check Kiro remote-OAuth MCP support
+
+# Monthly reminder to re-evaluate whether Kiro supports remote OAuth MCP,
+# which would let google-workspace-access switch to Google's official servers.
+# See google-workspace-access/TRACKING.md for the rationale.
+
+on:
+  schedule:
+    # 09:00 UTC on the 1st of every month
+    - cron: "0 9 1 * *"
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gather signals
+        id: gather
+        env:
+          KIRO_MCP_DOCS: "https://kiro.dev/docs/mcp/"
+          NPM_PKG: "@piotr-agier/google-drive-mcp"
+        run: |
+          set +e
+
+          # 1. Fetch Kiro MCP docs and look for OAuth-related mentions.
+          docs_html="$(curl -fsSL --max-time 30 "$KIRO_MCP_DOCS")"
+          docs_status=$?
+          if [ $docs_status -ne 0 ]; then
+            oauth_hits="(could not fetch docs; check the URL manually)"
+            docs_note="Fetch of $KIRO_MCP_DOCS failed (exit $docs_status)."
+          else
+            # Count case-insensitive OAuth mentions; show a few surrounding lines.
+            oauth_count="$(printf '%s' "$docs_html" | grep -io 'oauth' | wc -l | tr -d ' ')"
+            oauth_hits="$oauth_count occurrence(s) of 'oauth' on the MCP docs page"
+            docs_note="Fetched $KIRO_MCP_DOCS successfully."
+          fi
+
+          # 2. Latest published version of the upstream stdio server.
+          npm_version="$(curl -fsSL --max-time 30 "https://registry.npmjs.org/${NPM_PKG}/latest" \
+            | grep -o '"version"[[:space:]]*:[[:space:]]*"[^"]*"' \
+            | head -n1 | sed 's/.*"version"[[:space:]]*:[[:space:]]*"//; s/"//')"
+          [ -z "$npm_version" ] && npm_version="(lookup failed)"
+
+          {
+            echo "oauth_hits=$oauth_hits"
+            echo "npm_version=$npm_version"
+            echo "docs_note=$docs_note"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open or update tracking issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OAUTH_HITS: ${{ steps.gather.outputs.oauth_hits }}
+          NPM_VERSION: ${{ steps.gather.outputs.npm_version }}
+          DOCS_NOTE: ${{ steps.gather.outputs.docs_note }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -e
+          TITLE="Re-check: Kiro remote-OAuth MCP support"
+          DATE="$(date -u +%Y-%m-%d)"
+
+          BODY="$(printf '%s\n' \
+            "Automated monthly check (run $DATE UTC)." \
+            "" \
+            "**Question:** Does Kiro now support remote OAuth MCP servers? If yes," \
+            "\`google-workspace-access\` can switch from the local stdio server to" \
+            "Google's official Workspace MCP endpoints. See" \
+            "[google-workspace-access/TRACKING.md](../blob/main/google-workspace-access/TRACKING.md)." \
+            "" \
+            "**Signals gathered this run:**" \
+            "- Kiro MCP docs OAuth mentions: $OAUTH_HITS" \
+            "- $DOCS_NOTE" \
+            "- Latest \`@piotr-agier/google-drive-mcp\` version: \`$NPM_VERSION\`" \
+            "" \
+            "These signals are hints, not a definitive answer. A human should" \
+            "confirm by reading the Kiro MCP docs and testing a remote OAuth MCP" \
+            "connection before switching." \
+            "" \
+            "Workflow run: $RUN_URL")"
+
+          # Find an existing open tracking issue by exact title.
+          existing="$(gh issue list --repo "$REPO" --state open \
+            --search "in:title \"$TITLE\"" --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n1)"
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$REPO" --body "$BODY"
+            echo "Updated existing issue #$existing."
+          else
+            gh issue create --repo "$REPO" --title "$TITLE" --body "$BODY" \
+              --label "tracking" 2>/dev/null \
+              || gh issue create --repo "$REPO" --title "$TITLE" --body "$BODY"
+            echo "Created new tracking issue."
+          fi
