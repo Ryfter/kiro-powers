@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "google-workspace-access",
+  "version": "1.0.0",
+  "description": "Read and search Google Drive files and read Google Docs, Sheets, and Slides directly from Kiro through a self-hosted Google Workspace MCP server. Docs export cleanly to markdown.",
+  "author": {
+    "name": "krank"
+  },
+  "keywords": [
+    "google-drive",
+    "google-docs",
+    "google-sheets",
+    "google-slides",
+    "workspace",
+    "mcp",
+    "markdown-export"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Ryfter/kiro-powers/tree/main/google-workspace-access",
+  "repository": "https://github.com/Ryfter/kiro-powers"
+}

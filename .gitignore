@@ -1,0 +1,15 @@
+# Never commit Google OAuth credentials or tokens (any power)
+gcp-oauth.keys.json
+tokens.json
+team-store.json
+*.keys.json
+
+# Node / npx cruft
+node_modules/
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
