@@ -1,0 +1,75 @@
+name: Sync upstream skills
+
+# Weekly refresh of the vendored skills in matt-pocock-skills/ and superpowers/
+# from their upstream repos. Opens a pull request when anything changed, so a
+# human reviews the upstream diff before it goes live. Never pushes to main.
+#
+# Upstream sources and scope are defined in scripts/sync-upstream.sh and
+# documented in each power's README ("What is / is NOT synced").
+
+on:
+  schedule:
+    # 09:00 UTC every Monday
+    - cron: "0 9 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v4
+
+      - name: Run the sync script
+        run: |
+          chmod +x scripts/sync-upstream.sh
+          REPO_ROOT="$GITHUB_WORKSPACE" bash scripts/sync-upstream.sh
+
+      - name: Summarize synced commits
+        id: summary
+        run: |
+          mp="$(sed -n 's/^commit: //p' matt-pocock-skills/UPSTREAM.txt 2>/dev/null || echo unknown)"
+          sp="$(sed -n 's/^commit: //p' superpowers/UPSTREAM.txt 2>/dev/null || echo unknown)"
+          {
+            echo "mp_sha=$mp"
+            echo "sp_sha=$sp"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open a pull request if anything changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: sync/upstream-skills
+          # Reuse/update one PR rather than opening a new one each week.
+          title: "Sync upstream skills (matt-pocock-skills, superpowers)"
+          commit-message: "chore: sync vendored skills from upstream"
+          labels: sync
+          delete-branch: true
+          add-paths: |
+            matt-pocock-skills/skills/**
+            matt-pocock-skills/UPSTREAM.txt
+            matt-pocock-skills/UPSTREAM-LICENSE
+            superpowers/skills/**
+            superpowers/UPSTREAM.txt
+            superpowers/UPSTREAM-LICENSE
+          body: |
+            Automated weekly sync of vendored skills from their upstream repos.
+
+            This PR was opened because upstream content changed. The skills are
+            **the original work of their authors**, repackaged unchanged for Kiro
+            (see each power's README and NOTICE). Please review the diff below to
+            confirm the upstream changes look expected before merging.
+
+            **Synced commits:**
+            - matt-pocock-skills <- mattpocock/skills @ `${{ steps.summary.outputs.mp_sha }}`
+            - superpowers <- obra/superpowers @ `${{ steps.summary.outputs.sp_sha }}`
+
+            Sources:
+            - https://github.com/mattpocock/skills
+            - https://github.com/obra/superpowers
+
+            If this PR is empty of file changes, nothing changed upstream and it
+            can be closed.

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superpowers",
+  "version": "1.0.0",
+  "description": "Jesse Vincent's Superpowers agent skills, repackaged unchanged for Kiro. A complete software-development methodology: brainstorming, writing/executing plans, TDD, systematic debugging, code review, git worktrees, subagent-driven development. Original work by Jesse Vincent / Prime Radiant (github.com/obra/superpowers); this power only brings it into Kiro.",
+  "author": {
+    "name": "Jesse Vincent",
+    "url": "https://github.com/obra"
+  },
+  "keywords": [
+    "methodology",
+    "tdd",
+    "brainstorming",
+    "systematic-debugging",
+    "code-review",
+    "subagent-driven-development",
+    "superpowers"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/obra/superpowers",
+  "repository": "https://github.com/Ryfter/kiro-powers"
+}

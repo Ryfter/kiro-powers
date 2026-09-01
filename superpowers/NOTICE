@@ -1,0 +1,24 @@
+superpowers (Kiro power)
+========================
+
+The skills vendored in this power are the original work of Jesse Vincent and the
+team at Prime Radiant.
+
+  Author:  Jesse Vincent / Prime Radiant
+  Source:  https://github.com/obra/superpowers
+  License: MIT (see UPSTREAM-LICENSE)
+
+This power repackages those skills UNCHANGED so they can be installed in Kiro.
+It is a redistribution (vendoring), not a fork and not original work. No skill
+content has been modified. Upstream already lays skills out one level below
+skills/, so no restructuring was needed; the skill directories are copied
+verbatim.
+
+Harness-specific plugin scaffolding, session hooks, evals, tests, and release
+tooling from the upstream project are intentionally not included (see README).
+
+The synced upstream commit is recorded in UPSTREAM.txt.
+
+All credit for the skills belongs to Jesse Vincent and Prime Radiant. Please
+support the original authors and consult the upstream repository as the source
+of truth.

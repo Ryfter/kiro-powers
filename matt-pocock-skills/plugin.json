@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "matt-pocock-skills",
+  "version": "1.0.0",
+  "description": "Matt Pocock's engineering and productivity agent skills, repackaged unchanged for Kiro. Grilling/alignment, TDD, code review, debugging, codebase design, domain modeling, specs and tickets. Original work by Matt Pocock (github.com/mattpocock/skills); this power only brings it into Kiro.",
+  "author": {
+    "name": "Matt Pocock",
+    "url": "https://github.com/mattpocock"
+  },
+  "keywords": [
+    "engineering",
+    "tdd",
+    "code-review",
+    "debugging",
+    "codebase-design",
+    "domain-modeling",
+    "matt-pocock"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mattpocock/skills",
+  "repository": "https://github.com/Ryfter/kiro-powers"
+}

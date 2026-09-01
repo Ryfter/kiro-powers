@@ -1,0 +1,19 @@
+matt-pocock-skills (Kiro power)
+===============================
+
+The skills vendored in this power are the original work of Matt Pocock.
+
+  Author:  Matt Pocock
+  Source:  https://github.com/mattpocock/skills
+  License: MIT (see UPSTREAM-LICENSE)
+
+This power repackages those skills UNCHANGED so they can be installed in Kiro.
+It is a redistribution (vendoring), not a fork and not original work. No skill
+content has been modified. The only structural change is flattening upstream's
+skills/engineering/ and skills/productivity/ category folders into skills/<name>/
+so the Agent Plugins loader can discover them.
+
+The synced upstream commit is recorded in UPSTREAM.txt.
+
+All credit for the skills belongs to Matt Pocock. Please support the original
+author and consult the upstream repository as the source of truth.
