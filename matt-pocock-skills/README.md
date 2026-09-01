@@ -6,7 +6,8 @@
 > This power does **not** add, rewrite, or improve any of that work — it only
 > **repackages it, unchanged, so it can be installed as a Kiro power.**
 > All credit goes to Matt Pocock. If you find these skills valuable, follow and
-> support the original author.
+> support the original author: [@mattpocockuk](https://x.com/mattpocockuk) on X
+> and [github.com/mattpocock](https://github.com/mattpocock).
 
 A Kiro Power that vendors Matt Pocock's engineering and productivity agent
 skills so Kiro can use them. The skill files are copied verbatim from upstream;
@@ -15,6 +16,7 @@ attribution and license are preserved.
 ## Attribution
 
 - **Author:** Matt Pocock — <https://github.com/mattpocock>
+- **X / Twitter:** [@mattpocockuk](https://x.com/mattpocockuk)
 - **Source repo:** <https://github.com/mattpocock/skills>
 - **License:** MIT (see [UPSTREAM-LICENSE](UPSTREAM-LICENSE))
 - **Synced commit:** recorded in [UPSTREAM.txt](UPSTREAM.txt)
