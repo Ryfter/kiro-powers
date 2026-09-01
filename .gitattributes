@@ -1,0 +1,8 @@
+# Keep shell scripts LF so they run correctly on Linux CI runners and don't
+# show up as phantom diffs when the runner normalizes line endings.
+*.sh text eol=lf
+*.cjs text eol=lf
+*.js text eol=lf
+
+# Treat vendored skill markdown as text with normalized LF.
+*.md text eol=lf
