@@ -1,0 +1,6 @@
+# Fetched transcripts are user output, not part of the power
+transcripts/
+
+# Python
+__pycache__/
+*.pyc

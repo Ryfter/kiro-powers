@@ -42,6 +42,17 @@ Kiro.
 - Source: [github.com/obra/superpowers](https://github.com/obra/superpowers) (MIT)
 - What is / is not synced: see the power's [README](superpowers/README.md)
 
+### youtube-transcripts
+Fetch YouTube video transcripts as plain text so Kiro can read, summarize,
+quote, or research spoken video content it otherwise can't see (a watch page is
+a JavaScript shell that returns nothing useful to a normal fetch). Pass one or
+more video URLs or IDs and a bundled Python script writes one `.txt` per video,
+skipping ones with no captions. No API key required.
+
+- Folder: [`youtube-transcripts/`](youtube-transcripts/)
+- Dependency: [`youtube-transcript-api`](https://pypi.org/project/youtube-transcript-api/) (`pip install youtube-transcript-api`)
+- Usage and limits: see the power's [README](youtube-transcripts/README.md)
+
 ## Overlap between matt-pocock-skills and superpowers
 
 Both skill collections are built on the same engineering philosophy — align
