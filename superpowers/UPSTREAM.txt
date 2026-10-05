@@ -1,5 +1,5 @@
 source: https://github.com/obra/superpowers.git
-commit: b36e0829c6d0140e93cfef2ca599b1b07d4a7797
-synced: 2026-09-01T05:57:17Z
+commit: 8ca22dba9a94f28898bbce59f2537ff4d87c747d
+synced: 2026-10-05T18:08:02Z
 scope: all skills/
 excluded: none
