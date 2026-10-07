@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "youtube-transcripts",
+  "version": "1.0.0",
+  "description": "Fetch YouTube video transcripts as plain text from Kiro, so the agent can read, summarize, quote, or research spoken video content it otherwise cannot see. Bundles a small Python script that wraps the youtube-transcript-api library: pass one or more video URLs or IDs and it writes one UTF-8 .txt per video, reporting word counts and skipping videos with no captions. Handles full watch URLs, youtu.be short links, /shorts/ and /embed/ forms, and bare 11-character IDs, and works across both the modern (>=1.0) and legacy youtube-transcript-api interfaces. Use when the user shares YouTube links and wants the words, not the video. No API key required; transcripts are pulled from YouTube's public caption tracks.",
+  "author": {
+    "name": "krank"
+  },
+  "keywords": [
+    "youtube",
+    "transcript",
+    "captions",
+    "subtitles",
+    "video-to-text",
+    "youtube-transcript-api"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Ryfter/kiro-powers/tree/main/youtube-transcripts",
+  "repository": "https://github.com/Ryfter/kiro-powers"
+}
