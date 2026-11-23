@@ -1,5 +1,5 @@
 source: https://github.com/mattpocock/skills.git
-commit: 6654f6b60cd9d5be8b54c6fafe44346dabeb3b76
-synced: 2026-09-01T05:57:16Z
+commit: abeeaf95660ba9e8b7c753eb38f441ca707a8823
+synced: 2026-11-23T20:58:45Z
 scope: skills/engineering + skills/productivity (flattened)
 excluded: skills/in-progress, skills/misc
